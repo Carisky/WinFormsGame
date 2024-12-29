@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic.Logging;
 using System;
 using System.Windows.Forms;
+using WinFormsGame.db.services;
 using static System.Windows.Forms.DataFormats;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -9,9 +10,10 @@ namespace WinFormsGame
     public partial class Form2 : Form
     {
         private bool showPassword = false;
-
-        public Form2()
+        private readonly UserService _userService;
+        public Form2(UserService userService)
         {
+            _userService = userService;
             InitializeComponent();
             button1.MouseEnter += button1_MouseEnter;
             button1.MouseLeave += button1_MouseLeave;
@@ -44,7 +46,7 @@ namespace WinFormsGame
             label3.ForeColor = SystemColors.Control;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
             string login = textBox1.Text;
             string password = textBox2.Text;
@@ -54,44 +56,30 @@ namespace WinFormsGame
                 if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
                 {
                     MessageBox.Show("Будь ласка, введіть логін і пароль.");
-                    return; 
+                    return;
                 }
 
-                string filePath = Directory.GetCurrentDirectory() + "\\user\\user info.txt";
-                string filePath2 = Directory.GetCurrentDirectory() + "\\admin\\admin info.txt";
+                var user = await _userService.AuthenticateUserAsync(login, password);
 
-                string[] existingLines = File.ReadAllLines(filePath);
-
-                if (Array.Exists(existingLines, line => line.StartsWith($"{login} {password}")))
+                if (user != null)
                 {
                     MessageBox.Show("Вхід успішний. Приємної гри! ^_^");
                     Form1 form1 = new Form1();
                     form1.FormClosed += restart;
                     this.Hide();
                     form1.Show();
-                    return;
                 }
-
-                string[] existingLines2 = File.ReadAllLines(filePath2);
-
-                if (Array.Exists(existingLines2, line => line.StartsWith($"{login} {password}")))
+                else
                 {
-                    MessageBox.Show("Вхід успішний.");
-                    GlobalVariables.levels = ("1");
-                    Form1 form1 = new Form1();
-                    form1.FormClosed += restart;
-                    this.Hide();
-                    form1.Show();
-                    return;
+                    MessageBox.Show("Такого логіну/пароля не існує. Спробуйте ще раз або зареєструйтесь.");
                 }
-
-                MessageBox.Show("Такого логіну/пароля не існує. Спробуйте ще раз або зареєструйтесь.");
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Сталася помилка: {ex.Message}");
             }
         }
+
 
         private void restart(object sender, FormClosedEventArgs e)
         {
@@ -102,7 +90,7 @@ namespace WinFormsGame
 
         private void label3_Click(object sender, EventArgs e)
         {
-            Form3 form3 = new Form3();
+            Form3 form3 = new Form3(_userService);
             this.Hide();
             form3.ShowDialog();
             this.Show();

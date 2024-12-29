@@ -98,7 +98,7 @@ namespace WinFormsGame.utils
 
             form.BackColor = randomColor;
         }
-        public static void ChangeBackgroundColor(Form form,object sender, EventArgs e)
+        public static void ChangeBackgroundColor(Form form)
         {
             SetRandomBackColor(form);
         }

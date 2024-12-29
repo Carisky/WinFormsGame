@@ -9,19 +9,17 @@ namespace WinFormsGame
 {
     public partial class Form1 : Form
     {
-
         private Engine engine = new Engine();
         public Form1()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.KeyPreview = true;
-            this.KeyDown += new KeyEventHandler(OnKeyboardPressed);
+            this.KeyDown += new KeyEventHandler(OnKeyboardPressed!);
 
             engine.GenerateNewCell(this);
             engine.GenerateNewCell(this);   
         }
-
         private void OnKeyboardPressed(object sender, KeyEventArgs e)
         {
             bool moved = false;
@@ -47,7 +45,6 @@ namespace WinFormsGame
                 engine.GenerateNewCell(this);
             }
         }
-
         private void RestartGame(object sender, EventArgs e)
         {
             this.Close();
@@ -56,7 +53,6 @@ namespace WinFormsGame
         {
             Environment.Exit(0);
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             if (GlobalVariables.levels == ("1"))
@@ -64,27 +60,21 @@ namespace WinFormsGame
                 менюАдмінаToolStripMenuItem.Visible = true;
             }
         }
-
         private void ChangeBackgroundColor(object sender, EventArgs e)
         {
             UserAdditionalInterface.SetRandomBackColor(this);
         }
-
         private void ShowGameRules(object sender, EventArgs e)
         {
             UserAdditionalInterface.ShowGameRules(sender, e);
         }
-
         private void ShowUsersInfo(object sender, EventArgs e)
         {
             UserAdditionalInterface.ChangeUserInfo(sender, e);
         }
-
         private void ChangeUserInfo(object sender, EventArgs e)
         {
             UserAdditionalInterface.ChangeUserInfo(sender, e);
         }
     }
-
-    
 }

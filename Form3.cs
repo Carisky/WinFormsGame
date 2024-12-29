@@ -4,14 +4,21 @@ using System.IO;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar;
+using Microsoft.Extensions.DependencyInjection;
+using WinFormsGame.db.services;
+using WinFormsGame.db.models;
 
 namespace WinFormsGame
 {
     public partial class Form3 : Form
     {
-        public Form3()
+        private readonly UserService _userService;
+
+        public Form3(UserService userService)
         {
             InitializeComponent();
+            _userService = userService;
+
             button2.MouseEnter += button1_MouseEnter;
             button2.MouseLeave += button1_MouseLeave;
             label3.MouseEnter += label3_MouseEnter;
@@ -56,12 +63,13 @@ namespace WinFormsGame
 
         private void label3_Click(object sender, EventArgs e)
         {
-            Form2 form2 = new Form2();
+            // Assuming you're using a ServiceProvider to resolve dependencies
+            var form2 = Program.ServiceProvider.GetRequiredService<Form2>();
             this.Hide();
             form2.ShowDialog();
         }
 
-        private void button2_Click_1(object sender, EventArgs e)
+        private async void button2_Click_1(object sender, EventArgs e)
         {
             string login = textBox3.Text;
             string password = textBox4.Text;
@@ -74,16 +82,23 @@ namespace WinFormsGame
 
             try
             {
-                string filePath = Directory.GetCurrentDirectory() + "\\user\\user info.txt";
-
-                string line = $"{login} {password}";
-
-                if (File.Exists(filePath) && !File.ReadAllText(filePath).EndsWith(Environment.NewLine))
+                // Check if the user already exists
+                var existingUser = await _userService.GetUserByUsernameAsync(login);
+                if (existingUser != null)
                 {
-                    File.AppendAllText(filePath, Environment.NewLine);
+                    MessageBox.Show("Користувач з таким логіном вже існує.");
+                    return;
                 }
 
-                File.AppendAllText(filePath, line + Environment.NewLine);
+                // Create a new User and save to the database
+                var user = new db.models.User
+                {
+                    Username = login,
+                    Password = password, // Note: Consider hashing the password before storing it
+                    Highscore = 0 // Initial highscore (you can set this as needed)
+                };
+
+                await _userService.AddOrUpdateUserAsync(user);
 
                 MessageBox.Show("Дані збережено.");
             }
@@ -92,5 +107,6 @@ namespace WinFormsGame
                 MessageBox.Show($"Сталася помилка: {ex.Message}");
             }
         }
+
     }
 }
