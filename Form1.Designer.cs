@@ -549,6 +549,7 @@
             // 
             // HighScoreToolStripMenuItem
             // 
+            HighScoreToolStripMenuItem.Image = (Image)resources.GetObject("liders");
             HighScoreToolStripMenuItem.Name = "HighScoreToolStripMenuItem";
             HighScoreToolStripMenuItem.Size = new Size(223, 24);
             HighScoreToolStripMenuItem.Text = "Показати Таблицю Лідерів";
