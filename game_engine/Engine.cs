@@ -9,7 +9,6 @@ namespace WinFormsGame.game_engine
 {
     internal class Engine
     {
-        private int score = 0;
         private Random rnd = new Random();
         public Engine() {
             MapController.InitializeGameField();
@@ -17,7 +16,7 @@ namespace WinFormsGame.game_engine
 
         public bool MakeMove(int rowDirection, int colDirection, Label label, Form form)
         {
-           return MapController.MoveTiles(rowDirection, colDirection, score, label, form);
+           return MapController.MoveTiles(rowDirection, colDirection, label, form);
         }
 
         public void GenerateNewCell(Form form)

@@ -44,7 +44,7 @@ namespace WinFormsGame.game_engine
                 picture.BackColor = Color.FromArgb(255, darkerValue, darkerValue);
             }
         }
-        public static bool MoveTiles(int rowDirection, int colDirection, int score, Label label, Form form)
+        public static bool MoveTiles(int rowDirection, int colDirection, Label label, Form form)
         {
             bool moved = false;
             for (int i = (rowDirection > 0 ? 3 : 0); i >= 0 && i < 4; i -= rowDirection > 0 ? 1 : -1)
@@ -67,7 +67,7 @@ namespace WinFormsGame.game_engine
 
                     if (IsValidPosition(nextRow, nextCol) && Field.Map[nextRow, nextCol].Value == currentCell.Value)
                     {
-                        MergeCells(currentCell, Field.Map[nextRow, nextCol], score, label, form);
+                        MergeCells(currentCell, Field.Map[nextRow, nextCol], label, form);
                         moved = true;
                     }
                 }
@@ -100,12 +100,12 @@ namespace WinFormsGame.game_engine
                 from.Picture = null;
             }
         }
-        private static void MergeCells(Cell from, Cell to, int score, Label label, Form form)
+        private static void MergeCells(Cell from, Cell to, Label label, Form form)
         {
             int newValue = to.Value + from.Value;
             UpdateCellAppearance(to, newValue);
 
-            GUI.UpdateUserInterface(score, newValue, label, form, from);
+            GUI.UpdateUserInterface(newValue, label, form, from);
 
             from.Value = 0;
 

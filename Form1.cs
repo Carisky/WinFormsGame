@@ -5,13 +5,16 @@ using System.Windows.Forms;
 using WinFormsGame.game_engine;
 using WinFormsGame.models;
 using WinFormsGame.utils;
+using WinFormsGame.db.services;
 namespace WinFormsGame
 {
     public partial class Form1 : Form
     {
         private Engine engine = new Engine();
-        public Form1()
+        private readonly UserService _userService;
+        public Form1(UserService userService)
         {
+            _userService = userService;
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.KeyPreview = true;
@@ -49,8 +52,12 @@ namespace WinFormsGame
         {
             this.Close();
         }
-        private void QuitGame(object sender, EventArgs e)
+        private async void QuitGame(object sender, EventArgs e)
         {
+            if (Program.CurrentUser.Highscore<GameData.Score)
+            {
+                    await _userService.UpdateHighscoreAsync(Program.CurrentUser.Id, GameData.Score);
+            }
             Environment.Exit(0);
         }
         private void Form1_Load(object sender, EventArgs e)
@@ -75,6 +82,12 @@ namespace WinFormsGame
         private void ChangeUserInfo(object sender, EventArgs e)
         {
             UserAdditionalInterface.ChangeUserInfo(sender, e);
+        }
+        private async void ShowLeaderTable(object sender, EventArgs e)
+        {   
+            var users = await _userService.GetAllUsersAsync();
+            users = users.OrderByDescending(u => u.Highscore).ToList();
+            UserAdditionalInterface.ShowLeaderTable(sender, e, users);
         }
     }
 }

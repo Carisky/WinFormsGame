@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WinFormsGame.db.models;
+using WinFormsGame.db.services;
 
 namespace WinFormsGame.utils
 {
@@ -114,6 +116,11 @@ namespace WinFormsGame.utils
             "- Для того аби перезапустити гру оберіть відповідний пункт меню.\n" +
             "- Щоб вийти з програми, оберіть пункт меню 'Вийти з програми'.\n",
             "Інструкція користувача ^_^", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        public static void ShowLeaderTable(object sender, EventArgs e, List<User> users)
+        {
+            UserTablePrinter.ShowUsersTable(users);
         }
     }
 }

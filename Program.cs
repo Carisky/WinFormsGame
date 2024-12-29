@@ -10,7 +10,7 @@ namespace WinFormsGame
     internal static class Program
     {
         public static ServiceProvider ServiceProvider { get; private set; }
-
+        public static User CurrentUser { get; set; }
         [STAThread]
         static void Main()
         {
@@ -24,6 +24,7 @@ namespace WinFormsGame
             // Register other services
             services.AddScoped<UserRepository>();
             services.AddScoped<UserService>();
+            services.AddScoped<Form1>();
             services.AddScoped<Form2>();
             services.AddScoped<Form3>();
             // Build the service provider

@@ -64,7 +64,8 @@ namespace WinFormsGame
                 if (user != null)
                 {
                     MessageBox.Show("Вхід успішний. Приємної гри! ^_^");
-                    Form1 form1 = new Form1();
+                    Form1 form1 = new Form1(_userService);
+                    Program.CurrentUser = user;
                     form1.FormClosed += restart;
                     this.Hide();
                     form1.Show();
@@ -83,7 +84,7 @@ namespace WinFormsGame
 
         private void restart(object sender, FormClosedEventArgs e)
         {
-            Form1 form1 = new Form1();
+            Form1 form1 = new Form1(_userService);
             form1.FormClosed += restart;
             form1.Show();
         }

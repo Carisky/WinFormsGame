@@ -29,10 +29,10 @@ namespace WinFormsGame.game_engine
             }
         }
 
-        public static void UpdateUserInterface(int score, int newValue, Label label, Form form, Cell from)
+        public static void UpdateUserInterface(int newValue, Label label, Form form, Cell from)
         {
-            score += newValue;
-            label.Text = "Score: " + score;
+            GameData.Score += newValue;
+            label.Text = "Score: " + GameData.Score;
             form.Controls.Remove(from.Picture);
         }
     }

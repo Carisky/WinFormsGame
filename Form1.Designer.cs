@@ -82,6 +82,7 @@
             змінитиІнформаціюПроКористувачівToolStripMenuItem = new ToolStripMenuItem();
             перезапуститиToolStripMenuItem = new ToolStripMenuItem();
             вийтиЗПрограмиToolStripMenuItem1 = new ToolStripMenuItem();
+            HighScoreToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -516,7 +517,7 @@
             // 
             // менюToolStripMenuItem
             // 
-            менюToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { змінитиКолірФонуToolStripMenuItem, перезапуститиПрограмуToolStripMenuItem, інструкціяToolStripMenuItem, вийтиЗПрограмиToolStripMenuItem });
+            менюToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { змінитиКолірФонуToolStripMenuItem, перезапуститиПрограмуToolStripMenuItem, інструкціяToolStripMenuItem, вийтиЗПрограмиToolStripMenuItem, HighScoreToolStripMenuItem });
             менюToolStripMenuItem.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
             менюToolStripMenuItem.Name = "менюToolStripMenuItem";
             менюToolStripMenuItem.Size = new Size(62, 23);
@@ -545,6 +546,14 @@
             інструкціяToolStripMenuItem.Size = new Size(223, 24);
             інструкціяToolStripMenuItem.Text = "Інструкція";
             інструкціяToolStripMenuItem.Click += ShowGameRules;
+            // 
+            // HighScoreToolStripMenuItem
+            // 
+            HighScoreToolStripMenuItem.Name = "HighScoreToolStripMenuItem";
+            HighScoreToolStripMenuItem.Size = new Size(223, 24);
+            HighScoreToolStripMenuItem.Text = "Показати Таблицю Лідерів";
+            HighScoreToolStripMenuItem.Click += ShowLeaderTable;
+
             // 
             // вийтиЗПрограмиToolStripMenuItem
             // 
@@ -734,5 +743,6 @@
         private ToolStripMenuItem змінитиІнформаціюПроКористувачівToolStripMenuItem;
         private ToolStripMenuItem перезапуститиToolStripMenuItem;
         private ToolStripMenuItem вийтиЗПрограмиToolStripMenuItem1;
+        private ToolStripMenuItem HighScoreToolStripMenuItem;
     }
 }
